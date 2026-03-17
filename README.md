@@ -243,7 +243,4 @@ SurakshaSetu aims to become a **financial safety net for gig workers** by combin
 
 ---
 
-## 👥 Team
-
-This is a team project built as part of a technical + innovation challenge.
 
