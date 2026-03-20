@@ -54,50 +54,17 @@ During heavy rainfall:
 
 ## 🔄 Application Workflow
 
-1. **User Onboarding**
-
-   * Sign up via mobile app
-   * Connect delivery platform (simulated API)
-   * Enable GPS tracking
-
-2. **Weekly Policy Creation**
-
-   * AI calculates premium
-   * User activates weekly coverage
-
-3. **Pre-Shift Alerts**
-
-   * System predicts risks using weather + demand data
-   * Alerts user before risky shifts
-
-4. **Real-Time Monitoring**
-
-   * Tracks worker activity and location
-
-5. **Trigger Detection**
-
-   * Detects environmental disruption automatically
-
-6. **Income Verification (Income Oracle)**
-
-   * Checks:
-
-     * Worker was active
-     * Orders dropped significantly
-     * Worker is in affected area
-
-7. **Automatic Payout**
-
-   * Money sent instantly via UPI
-   * No manual claim required
+1. User signs up and connects platform
+2. Activates weekly policy
+3. Receives pre-shift risk alerts
+4. System monitors activity + environment
+5. Detects disruption
+6. Verifies income loss (Income Oracle)
+7. Sends instant payout via UPI
 
 ---
 
 ## 💰 Weekly Premium Model
-
-Premium is calculated weekly using AI.
-
-### Formula:
 
 ```
 Weekly Premium = Base + Weather Risk + City Risk - Reliability Discount
@@ -112,17 +79,9 @@ Weekly Premium = Base + Weather Risk + City Risk - Reliability Discount
 
 👉 Final Premium = ₹65/week
 
-### Range:
-
-* Low Risk: ₹40
-* Medium Risk: ₹60
-* High Risk: ₹80–₹100
-
 ---
 
 ## ⚡ Parametric Triggers
-
-Payouts are triggered automatically when conditions are met.
 
 | Event        | Trigger Condition  |
 | ------------ | ------------------ |
@@ -131,116 +90,158 @@ Payouts are triggered automatically when conditions are met.
 | Heatwave     | Temperature > 45°C |
 | Pollution    | AQI > 400          |
 
-### Data Sources:
-
-* OpenWeather
-* Indian Meteorological Department
-
-(Mock APIs may be used during development)
-
 ---
 
 ## 💸 Payout Logic
 
-Payout is based on income loss.
+* Expected income vs Actual income
+* Coverage: 30–40% of loss
 
-### Example:
-
-* Expected income = ₹700
-* Actual income = ₹200
-* Loss = ₹500
-
-👉 Coverage = 30–40%
-👉 Payout = ₹150–₹200
+👉 Example:
+Loss = ₹500 → Payout = ₹150–₹200
 
 ---
 
 ## 🤖 AI/ML Integration
 
-### 1. Risk Prediction
+### Risk Prediction
 
-* Uses weather data, historical trends, and demand patterns
+* Weather + historical + demand patterns
 
-### 2. Dynamic Premium Calculation
+### Dynamic Pricing
 
-* Adjusts weekly premium based on risk and worker behavior
+* Weekly premium adjusts based on risk
 
-### 3. Fraud Detection
+### Fraud Detection
 
 * GPS validation
 * Activity tracking
 * Duplicate claim detection
+
+### Income Oracle (Core)
+
+* Verifies real income loss
+
+---
+
+## 🛡️ Adversarial Defense & Anti-Spoofing Strategy
+
+Due to rising threats like GPS spoofing and coordinated fraud attacks, SurakshaSetu integrates a **multi-layered fraud defense system**.
+
+---
+
+### 🔍 1. Differentiation: Real vs Fake Claims
+
+Instead of relying only on GPS, we use:
+
+* 📍 Location consistency vs historical patterns
+* 🚴 Movement behavior during shifts
+* 📦 Order activity vs expected demand
+* 🌧️ Environmental validation
+
+👉 Real users show **consistent activity**, while fraud users show **static or abnormal patterns**
+
+---
+
+### 📊 2. Data Beyond GPS
+
+We analyze:
+
+* Device ID & session behavior
+* App usage patterns
+* Order acceptance & completion rates
+* Route & speed consistency
+* Network anomalies (sudden jumps)
+* Cluster detection (multiple similar claims)
+
+👉 Helps detect **organized fraud rings**
+
+---
+
+### ⚖️ 3. UX Balance (Fairness)
+
+* Soft flagging instead of instant rejection
+* Delayed validation for accuracy
+* Alternative verification if GPS fails
+* User notification for flagged claims
+
+👉 Ensures **fair treatment for genuine workers**
+
+---
+
+### 🧠 AI Fraud Layer
+
 * Anomaly detection
+* Pattern recognition
+* Risk scoring per claim
 
-### 4. Income Oracle (Core Innovation)
+---
 
-* Verifies real income loss before payout
+### 🚀 Outcome
+
+* Prevents mass fake payouts
+* Maintains trust and fairness
+* Builds a secure insurance system
 
 ---
 
 ## 📱 Platform Choice
 
-We chose a **mobile app** because:
+Mobile App:
 
-* Delivery workers primarily use smartphones
-* Real-time alerts are needed
-* GPS tracking is essential
-* Easy UPI payouts
+* Easy access
+* Real-time alerts
+* GPS tracking
+* Instant payouts
 
 ---
 
 ## 🛠️ Tech Stack
 
-**Frontend:** React Native
-**Backend:** Node.js + Express
-**Database:** MongoDB
-**AI/ML:** Python (Scikit-learn)
+Frontend: React Native
+Backend: Node.js + Express
+Database: MongoDB
+AI/ML: Python (Scikit-learn)
 
-**APIs:**
+APIs:
 
-* Weather APIs (real + mock)
-* Simulated delivery APIs
-* UPI payment integration
+* Weather APIs
+* Mock delivery APIs
+* UPI integration
 
 ---
 
 ## 📅 Development Plan
 
-* **Phase 1:** Research + Idea + Documentation ✅
-* **Phase 2:** Backend + AI models
-* **Phase 3:** Mobile app development
-* **Phase 4:** Integration + Testing + Demo
+Phase 1: Ideation + Documentation ✅
+Phase 2: Core features + automation
+Phase 3: AI + fraud detection + scaling
 
 ---
 
-## 🌟 Unique Selling Points (USP)
+## 🌟 USP
 
-* Focuses only on **income protection**
-* Provides **shift-level coverage**
-* Predicts risks before they occur
-* Offers **instant payouts without claims**
-* Uses **AI for pricing and fraud detection**
-* Introduces **Income Oracle for fair validation**
+* Income-focused insurance
+* Shift-level protection
+* Instant payouts
+* AI-driven system
+* Strong anti-fraud architecture
 
 ---
 
 ## 📄 Insurance Policy
 
-👉 Read the full policy here: **[SurakshaSetu Policy](./policy.md)**
+Full policy available in: `policy.md`
 
 ---
 
-## 🎯 Final Vision
+## 🎯 Vision
 
-SurakshaSetu aims to become a **financial safety net for gig workers** by combining:
+Build a system where:
 
-* AI-powered prediction
-* Real-time monitoring
-* Automated insurance payouts
-
-👉 Our goal:
-**“No delivery worker should lose income due to factors beyond their control.”**
+**No delivery worker loses income due to external disruptions**
 
 ---
+
 
 
