@@ -1,4 +1,5 @@
-const Policy = require("../models/policy");
+const Policy = require("../models/Policy");
+const { getWeatherDataAndRisk } = require("../services/weatherService");
 
 // ==========================
 // CREATE POLICY
@@ -10,10 +11,12 @@ exports.createPolicy = async (req, res) => {
     // Logged-in user (from JWT middleware)
     const userId = req.user.id;
 
-    // Dummy premium logic (can upgrade later)
-    const weatherRisk = 200;
-    const cityRisk = 100;
-    const discount = 50;
+    // Get dynamic weather + city pricing
+    const weatherInfo = await getWeatherDataAndRisk(city);
+
+    const weatherRisk = weatherInfo.weatherRisk;
+    const cityRisk = weatherInfo.cityRisk;
+    const discount = weatherInfo.discount;
 
     const totalPremium =
       Number(basePremium) + weatherRisk + cityRisk - discount;
@@ -31,7 +34,19 @@ exports.createPolicy = async (req, res) => {
 
     res.status(201).json({
       message: "Policy created successfully",
-      policy
+      policy,
+      pricingBreakdown: {
+        basePremium: Number(basePremium),
+        weatherRisk,
+        cityRisk,
+        discount,
+        totalPremium
+      },
+      weatherData: {
+        temp: weatherInfo.temp,
+        rain: weatherInfo.rain,
+        aqi: weatherInfo.aqi
+      }
     });
 
   } catch (err) {
@@ -40,7 +55,6 @@ exports.createPolicy = async (req, res) => {
     });
   }
 };
-
 
 // ==========================
 // GET ALL POLICIES (for logged-in user)
