@@ -11,19 +11,22 @@ app.use(express.json());
 
 // Routes
 const userRoutes = require("./routes/userRoutes");
+const policyRoutes = require("./routes/policyRoutes");
+const weatherRoutes = require("./routes/weatherRoutes");
+
 app.use("/api/users", userRoutes);
+app.use("/api/policy", policyRoutes);
+app.use("/api/weather", weatherRoutes);
 
 // MongoDB
 mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
 
 // Test Route
 app.get("/", (req, res) => {
   res.send("API Running...");
 });
-const policyRoutes = require("./routes/policyRoutes");
-app.use("/api/policy", policyRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
