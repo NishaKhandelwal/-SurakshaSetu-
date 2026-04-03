@@ -13,10 +13,14 @@ app.use(express.json());
 const userRoutes = require("./routes/userRoutes");
 const policyRoutes = require("./routes/policyRoutes");
 const weatherRoutes = require("./routes/weatherRoutes");
+const claimsRoutes = require("./routes/claims");
 
 app.use("/api/users", userRoutes);
 app.use("/api/policy", policyRoutes);
 app.use("/api/weather", weatherRoutes);
+app.use("/api/claims", claimsRoutes);
+
+require("./cron/claimCron");
 
 // MongoDB
 mongoose.connect(process.env.MONGO_URI)
