@@ -1,0 +1,351 @@
+/* -------------------- FONTS & VARIABLES -------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root {
+  --primary: #2563eb;   /* Blue */
+  --secondary: #64748b; /* Gray */
+  --dark: #0f172a;      /* Dark sidebar */
+  --success: #22c55e;   /* Green */
+  --danger: #ef4444;    /* Red */
+  --glass: rgba(255, 255, 255, 0.1);
+  --bg: #f1f5f9;        /* Main background */
+  --card-bg: #ffffff;   /* Cards */
+  --alert-bg: #fef3c7;  /* Alert banner */
+  --alert-border: #f59e0b;
+}
+
+/* -------------------- BODY -------------------- */
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--dark);
+}
+
+/* -------------------- DASHBOARD WRAPPER -------------------- */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+/* -------------------- SIDEBAR -------------------- */
+.sidebar {
+  width: 220px;
+  background-color: var(--dark);
+  color: white;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav li {
+  margin: 1rem 0;
+  cursor: pointer;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.sidebar nav li:hover,
+.sidebar nav li.active {
+  background-color: var(--primary);
+  color: white;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.logout-link {
+  background: transparent;
+  border: none;
+  color: var(--danger);
+  cursor: pointer;
+  font-weight: 600;
+  margin-top: 2rem;
+  padding: 0.5rem;
+}
+
+/* -------------------- MAIN CONTENT -------------------- */
+.dashboard-main {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* -------------------- HERO SECTION -------------------- */
+.hero {
+  background: linear-gradient(135deg, var(--primary), #1e40af);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.hero p {
+  font-size: 1rem;
+  opacity: 0.8;
+}
+
+/* -------------------- ALERT BANNER -------------------- */
+.alert-banner-top {
+  background: var(--alert-bg);
+  border-left: 5px solid var(--alert-border);
+  color: #78350f;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* -------------------- GRID SYSTEM -------------------- */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------------------- CARDS -------------------- */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: var(--secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* -------------------- RISK BAR -------------------- */
+.risk-bar {
+  display: grid;
+  grid-template-columns: 90px 1fr 35px;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+}
+
+.progress {
+  background: #f1f5f9;
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.fill {
+  background: var(--primary);
+  height: 100%;
+}
+
+/* -------------------- INCOME STATS -------------------- */
+.income-stats {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stat strong, .stat-highlight strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 4px;
+}
+
+.stat span {
+  font-size: 0.75rem;
+  color: var(--secondary);
+}
+
+/* -------------------- ORACLE LIST -------------------- */
+.oracle-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.oracle-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  font-weight: 600;
+}
+
+/* -------------------- FRAUD CARD -------------------- */
+.fraud-card {
+  flex: 1;
+}
+
+/* -------------------- POLICY DETAILS -------------------- */
+.policy-details .p-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+/* Income preview in Create Policy */
+.income-stats-preview {
+  background: #fefeff;
+  border: 1px solid #d1d5db;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.income-stats-preview h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.income-stats-preview .income-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+/* -------------------- BUTTONS -------------------- */
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* -------------------- SUCCESS / DANGER TEXT -------------------- */
+.success-text { color: var(--success); font-weight: 700; }
+.danger-text { color: var(--danger); font-weight: 700; }
+
+/* -------------------- CLAIMS CARD -------------------- */
+.claims-card {
+  flex-grow: 1;
+}
+
+.claim-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.amt {
+  font-weight: 700;
+  color: var(--success);
+}
+
+/* -------------------- LOADING SCREEN -------------------- */
+.loading-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-weight: 700;
+  color: var(--primary);
+  font-size: 1.2rem;
+}
+/* Form inputs in create policy */
+input[type="number"], input[type="date"] {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  margin-top: 0.3rem;
+}
+
+input[type="number"]:focus, input[type="date"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 3px var(--primary);
+}
+
+.create-policy-card p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+.create-policy-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
+}
+
+.policy-overview, .policy-triggers {
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.policy-overview h4, .policy-triggers h4 {
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.income-stats-preview {
+  background: #fefeff;
+  border: 1px solid #d1d5db;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.income-stats-preview h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--primary);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.income-stats-preview .income-stats {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
