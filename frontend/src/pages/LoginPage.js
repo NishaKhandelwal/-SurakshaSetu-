@@ -99,6 +99,7 @@ const LoginPage = () => {
           </div>
 
           <button type="submit" className="auth-btn" disabled={isLoading}>
+            {isLoading ? "Processing..." : isLogin ? "Login to Dashboard" : "Create Account"}
             {isLoading ? "Processing..." : (isLogin ? "Login to Dashboard" : "Create Account")}
           </button>
         </form>
@@ -106,6 +107,13 @@ const LoginPage = () => {
         <div className="auth-footer">
           <p>
             {isLogin ? "Don't have an account? " : "Already have an account? "}
+            <span
+              onClick={() => {
+                setIsLogin(!isLogin);
+                setError("");
+              }}
+              className="auth-toggle"
+            >
             <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="auth-toggle">
               {isLogin ? "Register here" : "Login here"}
             </span>
