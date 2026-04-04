@@ -24,7 +24,7 @@ const LoginPage = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(
-          isLogin
+          isLogin 
             ? { email: formData.email, password: formData.password }
             : { name: formData.name, email: formData.email, password: formData.password }
         ),
@@ -33,16 +33,10 @@ const LoginPage = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Save token and user info in localStorage
         localStorage.setItem("token", data.token);
-
-        // Save userId for fetching dashboard data
-        const userId = (data.user && data.user._id) || data._id;
-        if (userId) localStorage.setItem("userId", userId);
-
-        const userName = (data.user && data.user.name) || formData.name || "Partner";
+        // Fallback name if backend doesn't send it or user name is empty
+        const userName = data.name || (data.user && data.user.name) || formData.name || "[your_name_here]";
         localStorage.setItem("userName", userName);
-
         window.location.href = "/dashboard";
       } else {
         setError(data.error || data.message || "Authentication failed. Please try again.");
@@ -68,43 +62,45 @@ const LoginPage = () => {
           {!isLogin && (
             <div className="input-group">
               <label>Full Name</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your full name"
-                value={formData.name}
-                onChange={handleChange}
-                required={!isLogin}
+              <input 
+                type="text" 
+                name="name" 
+                // Removed specific placeholder example
+                placeholder="Enter your full name" 
+                value={formData.name} 
+                onChange={handleChange} 
+                required={!isLogin} 
               />
             </div>
           )}
-
+          
           <div className="input-group">
             <label>Email Address</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter email address"
-              value={formData.email}
-              onChange={handleChange}
-              required
+            <input 
+              type="email" 
+              name="email" 
+              placeholder="Enter email address" 
+              value={formData.email} 
+              onChange={handleChange} 
+              required 
             />
           </div>
 
           <div className="input-group">
             <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="••••••••"
-              value={formData.password}
-              onChange={handleChange}
-              required
+            <input 
+              type="password" 
+              name="password" 
+              placeholder="••••••••" 
+              value={formData.password} 
+              onChange={handleChange} 
+              required 
             />
           </div>
 
           <button type="submit" className="auth-btn" disabled={isLoading}>
             {isLoading ? "Processing..." : isLogin ? "Login to Dashboard" : "Create Account"}
+            {isLoading ? "Processing..." : (isLogin ? "Login to Dashboard" : "Create Account")}
           </button>
         </form>
 
@@ -118,6 +114,7 @@ const LoginPage = () => {
               }}
               className="auth-toggle"
             >
+            <span onClick={() => { setIsLogin(!isLogin); setError(""); }} className="auth-toggle">
               {isLogin ? "Register here" : "Login here"}
             </span>
           </p>

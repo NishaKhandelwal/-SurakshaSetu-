@@ -1,6 +1,5 @@
 const Claim = require("../models/Claim");
 const Policy = require("../models/Policy");
-const User = require("../models/User");
 
 const TRIGGERS = {
   Rain: 80,       // > 80mm
@@ -8,12 +7,8 @@ const TRIGGERS = {
   Pollution: 400, // AQI > 400
 };
 
-/**
- * Auto-create and approve claims based on weather triggers + income loss
- * @param {Object} weatherData - { rain, temp, aqi }
- */
 async function autoCreateAndApproveClaims(weatherData) {
-  const { rain = 0, temp = 0, aqi = 0 } = weatherData;
+  const { rain, temp, aqi } = weatherData;
 
   const checks = [
     { type: "Rain", value: rain },
@@ -22,21 +17,15 @@ async function autoCreateAndApproveClaims(weatherData) {
   ];
 
   const triggeredTypes = checks.filter(({ type, value }) => value > TRIGGERS[type]);
+
   if (triggeredTypes.length === 0) return [];
 
-  // Fetch all policies with user data
-  const policies = await Policy.find({}).populate("userId");
+  // Fetch all policies
+  const policies = await Policy.find({});
+
   const createdClaims = [];
 
   for (const policy of policies) {
-    const user = policy.userId;
-    if (!user) continue;
-
-    // Simulate income loss for the week
-    const expectedIncome = user.avgWeeklyIncome || 0;
-    const actualIncome = expectedIncome - 500;  // example: ₹500 loss
-    const payout = (expectedIncome - actualIncome) * 0.3; // 30% coverage
-
     for (const { type, value } of triggeredTypes) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
@@ -47,17 +36,15 @@ async function autoCreateAndApproveClaims(weatherData) {
         triggerType: type,
         createdAt: { $gte: today },
       });
+
       if (existing) continue;
 
       const claim = await Claim.create({
-        userId: user._id,
+        userId: policy.userId,
         policyId: policy._id,
         triggerType: type,
         triggerValue: value,
-        status: "Approved",
-        expectedIncome,
-        actualIncome,
-        payout
+        status: "Approved", // Zero-touch auto-approve
       });
 
       createdClaims.push(claim);
