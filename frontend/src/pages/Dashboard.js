@@ -6,6 +6,10 @@ const Dashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [userName] = useState(localStorage.getItem("userName") || "Partner");
 
+  const [income, setIncome] = useState(null);
+  const [fraudScore, setFraudScore] = useState(null);
+  const [weather, setWeather] = useState(null);
+
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/";
@@ -13,11 +17,68 @@ const Dashboard = () => {
 
   const activateInsights = () => {
     setIsLoading(true);
-    // Simulating AI Oracle Processing
     setTimeout(() => {
       setIsProtected(true);
       setIsLoading(false);
     }, 800);
+  };
+
+  // 🔥 FETCH ML + WEATHER DATA
+  useEffect(() => {
+    fetchIncome();
+    fetchFraud();
+    fetchWeather();
+  }, []);
+
+  const fetchIncome = async () => {
+    try {
+      const res = await fetch("http://localhost:5001/predict-income", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          hoursWorked: 6,
+          completedOrders: 12,
+          avgOrderValue: 100,
+          rain: 80,
+          temp: 30,
+          aqi: 120
+        })
+      });
+
+      const data = await res.json();
+      setIncome(data.expectedIncome);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchFraud = async () => {
+    try {
+      const res = await fetch("http://localhost:5001/detect-fraud", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          distance: 10,
+          speed: 5,
+          completedOrders: 2
+        })
+      });
+
+      const data = await res.json();
+      setFraudScore(data.fraudScore);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchWeather = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/weather/Delhi");
+      const data = await res.json();
+      setWeather(data);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (isLoading) return <div className="loading-screen">🧠 Synchronizing Income Oracle...</div>;
@@ -32,110 +93,98 @@ const Dashboard = () => {
         </div>
       </nav>
 
-      {/* ⚡ REAL-TIME ALERT SYSTEM */}
-      <div className="alert-banner-top">
-        <span className="blink">🚨</span> 
-        <strong>Severe Rain Expected in 2 Hours:</strong> 
-        <span className="cta-text" onClick={activateInsights}>Activate protection now to secure today's earnings.</span>
-      </div>
+      {/* 🌧️ REAL WEATHER ALERT */}
+      {weather && (
+        <div className="alert-banner-top">
+          🚨 Rain: {weather.rain}mm | Temp: {weather.temp}°C | AQI: {weather.aqi}
+        </div>
+      )}
 
       <div className="dashboard-content">
         <header className="hero">
-          <div className="hero-text">
-            <h1>Protect Your Income, Not Just Your Ride.</h1>
-            <p>AI-driven risk intelligence for the modern delivery workforce.</p>
-          </div>
+          <h1>Protect Your Income, Not Just Your Ride.</h1>
+          <p>AI-driven risk intelligence for gig workers.</p>
+
           <button onClick={activateInsights} className="btn-secondary">
             {isProtected ? "Refresh Risk Insights" : "View Risk Insights"}
           </button>
         </header>
 
         <div className="main-grid">
-          {/* --- LEFT COLUMN --- */}
+
+          {/* LEFT */}
           <div className="grid-column">
-            
-            {/* 🔥 RISK INTELLIGENCE */}
-            <section className="card risk-intel">
-              <div className="card-header">
-                <h3>Risk Intelligence</h3>
-                <span className="live-tag">LIVE AI</span>
-              </div>
-              <div className="risk-score-container">
-                <div className="score-main">
-                  <span className="score-val">12%</span>
-                  <span className="score-label">Low Risk Today</span>
-                </div>
-                <div className="risk-breakdown">
-                  <div className="risk-bar"><span>🌧 Rain Risk</span> <div className="progress"><div className="fill" style={{width: '5%'}}></div></div> <span>5%</span></div>
-                  <div className="risk-bar"><span>🌡 Heat Risk</span> <div className="progress"><div className="fill" style={{width: '3%'}}></div></div> <span>3%</span></div>
-                  <div className="risk-bar"><span>🌫 Pollution</span> <div className="progress"><div className="fill" style={{width: '4%'}}></div></div> <span>4%</span></div>
-                </div>
+
+            {/* 📊 RISK */}
+            <section className="card">
+              <h3>Risk Intelligence</h3>
+              <div className="score-main">
+                <span className="score-val">
+                  {weather ? Math.min(weather.rain + weather.aqi / 10, 100) : "..." }%
+                </span>
+                <span className="score-label">Dynamic Risk</span>
               </div>
             </section>
 
-            {/* ⚡ INCOME RISK / EXPECTED LOSS */}
-            <section className="card income-prediction">
-              <h3>💸 Income Risk Prediction</h3>
+            {/* 💸 INCOME */}
+            <section className="card">
+              <h3>💸 Income Prediction (ML)</h3>
               <div className="income-stats">
-                <div className="stat"><span>Expected Earnings</span> <strong>₹1200</strong></div>
-                <div className="stat"><span>Risk Adjusted</span> <strong className="success-text">₹950</strong></div>
-                <div className="stat-highlight"><span>Potential Loss</span> <strong className="danger-text">₹250</strong></div>
+                <div className="stat">
+                  <span>Expected</span>
+                  <strong>₹{income || "..."}</strong>
+                </div>
+
+                <div className="stat">
+                  <span>Adjusted</span>
+                  <strong className="success-text">
+                    ₹{income ? Math.round(income * 0.8) : "..."}
+                  </strong>
+                </div>
+
+                <div className="stat-highlight">
+                  <span>Loss</span>
+                  <strong className="danger-text">
+                    ₹{income ? Math.round(income * 0.2) : "..."}
+                  </strong>
+                </div>
               </div>
             </section>
 
-            {/* 📊 RECENT INCOME SUPPORT */}
-            <section className="card claims-card">
-              <h3>Recent Income Support</h3>
-              <div className="claims-list">
-                <div className="claim-row">
-                  <div className="claim-info"><strong>Rain Disruption</strong><span>April 2, 2026</span></div>
-                  <div className="claim-payout"><span className="amt">+₹180</span></div>
-                </div>
-                <div className="claim-row">
-                  <div className="claim-info"><strong>Extreme Heatwave</strong><span>March 28, 2026</span></div>
-                  <div className="claim-payout"><span className="amt">+₹120</span></div>
-                </div>
-              </div>
-            </section>
           </div>
 
-          {/* --- RIGHT COLUMN --- */}
+          {/* RIGHT */}
           <div className="grid-column">
-            
-            {/* 📍 ACTIVE PROTECTION CARD */}
-            <section className={`card policy-card ${isProtected ? 'active-border' : ''}`}>
+
+            {/* POLICY */}
+            <section className={`card ${isProtected ? 'active-border' : ''}`}>
               <h3>Policy Status</h3>
-              <div className="policy-details">
-                <div className="p-row"><span>Status</span> <strong className={isProtected ? 'success-text' : 'danger-text'}>{isProtected ? 'ACTIVE' : 'INACTIVE'}</strong></div>
-                <div className="p-row"><span>Weekly Premium</span> <strong>₹65</strong></div>
-                <div className="p-row"><span>Coverage</span> <strong>Up to ₹200 / shift</strong></div>
-              </div>
-              {!isProtected && <button onClick={activateInsights} className="btn-primary">Activate Protection</button>}
+              <p>Status: <strong>{isProtected ? "ACTIVE" : "INACTIVE"}</strong></p>
+
+              {!isProtected && (
+                <button onClick={activateInsights} className="btn-primary">
+                  Activate Protection
+                </button>
+              )}
             </section>
 
-            {/* 🧠 INCOME ORACLE STATUS */}
-            <section className="card oracle-card">
-              <h3>🧠 Income Oracle Status</h3>
-              <ul className="oracle-list">
-                <li><span className="check">✅</span> Activity Verified</li>
-                <li><span className="check">✅</span> Demand Drop Detected</li>
-                <li><span className="check">⚡</span> Eligible for Protection</li>
-              </ul>
+            {/* FRAUD */}
+            <section className="card">
+              <h3>🛡️ Fraud Detection</h3>
+
+              <div className="trust-circle">
+                {fraudScore
+                  ? Math.round((1 - fraudScore) * 100) + "%"
+                  : "..."}
+              </div>
+
+              <p>
+                {fraudScore < 0.5
+                  ? "✅ Genuine User"
+                  : "⚠️ Suspicious Activity"}
+              </p>
             </section>
 
-            {/* 🛡️ FRAUD DETECTION STATUS */}
-            <section className="card fraud-card">
-              <h3>🛡️ Trust Score / Fraud Check</h3>
-              <div className="fraud-stats">
-                <div className="trust-circle">
-                    <div className="percentage">92%</div>
-                </div>
-                <div className="fraud-info">
-                  <p><strong>Verified User</strong> ✅</p>
-                  <p className="subtext">Risk Flag: None Detected</p>
-                </div>
-              </div>
-            </section>
           </div>
         </div>
       </div>

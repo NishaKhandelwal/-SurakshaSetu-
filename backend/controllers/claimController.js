@@ -6,42 +6,46 @@ const { getExpectedIncome, checkFraud } = require("../services/mlService");
 // ==========================
 // PROCESS MANUAL CLAIM
 // ==========================
+
+
 exports.processClaim = async (req, res) => {
-    console.log("USER:", req.user);
-    try {
-        const { actualIncome, userData, policyId } = req.body;
+  try {
+    const { actualIncome, userData } = req.body;
 
-        const expectedIncome = await getExpectedIncome(userData);
-        const loss = Math.max(0, expectedIncome - actualIncome);
+    const userId = req.user.id;
 
-        const fraud = await checkFraud(userData);
+    const expectedIncome = await getExpectedIncome(userData);
+    const loss = expectedIncome - actualIncome;
 
-        let status = "Approved";
-        let payout = loss * 0.35;
+    const fraud = await checkFraud(userData);
 
-        if (fraud) {
-            status = "Flagged";
-            payout = 0;
-        }
-
-        const claim = await Claim.create({
-            userId: req.user.id,
-            policyId,
-            expectedIncome,
-            actualIncome,
-            payout,
-            fraud,
-            status
-        });
-
-        res.json(claim);
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Server Error" });
+    if (fraud) {
+      return res.json({ status: "Flagged", reason: "Fraud suspected" });
     }
-};
 
+    const payout = loss > 0 ? Math.round(loss * 0.35) : 0;
+
+    // 🔥 SAVE CLAIM
+    const claim = await Claim.create({
+      userId,
+      policyId: null, // optional for now
+      triggerType: "ML",
+      triggerValue: payout,
+      status: "Approved",
+    });
+
+    res.json({
+      expectedIncome,
+      actualIncome,
+      payout,
+      status: "Approved",
+      claimId: claim._id,
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // ==========================
 // AUTO CLAIMS (TRIGGERS)
