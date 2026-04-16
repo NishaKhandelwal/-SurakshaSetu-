@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== GLOBAL BASE ===== */
+
+@layer base {
+  body {
+    @apply bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-slate-200 font-body;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display text-slate-100 tracking-wide;
+  }
+
+  p {
+    @apply text-slate-400;
+  }
+}
+
+/* ===== DESIGN SYSTEM ===== */
+
+@layer components {
+
+  /* ===== CARD ===== */
+  .card {
+    @apply bg-navy-900/70 backdrop-blur-lg 
+           border border-navy-700/50 
+           rounded-2xl p-6 
+           shadow-xl transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply border-amber-500/40 shadow-amber-500/10 scale-[1.01];
+  }
+
+  /* ===== BUTTONS ===== */
+  .btn-primary {
+    @apply w-full 
+           bg-gradient-to-r from-amber-500 to-amber-400 
+           text-navy-950 font-semibold 
+           py-2.5 px-4 rounded-lg 
+           shadow-lg shadow-amber-500/20 
+           transition-all duration-200;
+  }
+
+  .btn-primary:hover {
+    @apply scale-[1.02] shadow-amber-400/40;
+  }
+
+  .btn-secondary {
+    @apply bg-navy-800/80 backdrop-blur 
+           border border-navy-700 
+           text-slate-300 
+           py-2.5 px-4 rounded-lg 
+           transition-all duration-200;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-navy-700 text-white;
+  }
+
+  /* ===== INPUTS ===== */
+  .input-field {
+    @apply w-full 
+           bg-navy-800/80 backdrop-blur 
+           border border-navy-700 
+           text-slate-200 
+           px-3 py-2 rounded-lg 
+           transition-all duration-200;
+  }
+
+  .input-field:focus {
+    @apply outline-none ring-2 ring-amber-500 border-amber-500;
+  }
+
+  /* ===== LABEL ===== */
+  .label {
+    @apply text-sm text-slate-400 mb-1 block;
+  }
+
+  /* ===== BADGES ===== */
+  .badge-success {
+    @apply text-emerald-400 bg-emerald-500/10 border border-emerald-500/30 px-2 py-1 rounded-md text-xs;
+  }
+
+  .badge-warning {
+    @apply text-amber-400 bg-amber-500/10 border border-amber-500/30 px-2 py-1 rounded-md text-xs;
+  }
+
+  .badge-danger {
+    @apply text-rose-400 bg-rose-500/10 border border-rose-500/30 px-2 py-1 rounded-md text-xs;
+  }
+
+  /* ===== METRIC VALUE ===== */
+  .metric-value {
+    @apply text-2xl font-bold text-white;
+  }
+
+  .metric-label {
+    @apply text-xs text-slate-500 uppercase tracking-wide;
+  }
+
+  /* ===== GLASS PANEL ===== */
+  .glass {
+    @apply bg-navy-900/60 backdrop-blur-xl border border-navy-700/40;
+  }
+}
