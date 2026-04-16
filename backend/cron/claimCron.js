@@ -4,7 +4,7 @@ const { getWeatherDataAndRisk } = require("../services/weatherService");
 // 🔥 FIXED IMPORT (from controller, not service)
 const { autoCreateAndProcessClaims } = require("../controllers/claimController");
 
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule('*/30 * * * *', async () => {
   console.log("[CRON] Running weather trigger check...");
 
   try {

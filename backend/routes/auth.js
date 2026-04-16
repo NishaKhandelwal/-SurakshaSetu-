@@ -1,6 +1,6 @@
 const express = require("express");
 const User = require("../models/User");
-
+const jwt = require("jsonwebtoken");
 const router = express.Router();
 const bcrypt = require("bcryptjs"); // optional, for password hashing
 
@@ -22,7 +22,17 @@ router.post("/register", async (req, res) => {
       workingHours
     });
 
-    res.json({ success: true, user });
+    const token = jwt.sign(
+  { id: user._id },
+  "secretkey",
+  { expiresIn: "7d" }
+);
+
+res.json({
+  success: true,
+  token,
+  user
+});
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
   }
@@ -32,15 +42,27 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const user = await User.findOne({ email });
 
-    if (!user) return res.status(404).json({ success: false, message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
 
-    // optional: check hashed password
-    // const isMatch = await bcrypt.compare(password, user.password);
-    // if (!isMatch) return res.status(400).json({ success: false, message: "Invalid credentials" });
+    // (Optional later: password check)
 
-    res.json({ success: true, user });
+    const token = jwt.sign(
+      { id: user._id },
+      "secretkey", // later move to .env
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      success: true,
+      token,
+      user
+    });
+
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
