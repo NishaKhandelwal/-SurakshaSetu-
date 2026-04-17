@@ -11,13 +11,13 @@ Delivery partners working with platforms like Swiggy and Zomato are a key part o
 
 However, external factors such as:
 
-* Heavy rain 🌧️
-* Extreme heat ☀️
-* High pollution 🌫️
+* 🌧️ Heavy rain
+* ☀️ Extreme heat
+* 🌫️ High pollution
 
 can reduce their working hours and cause **20–30% income loss per week**.
 
-Currently, there is **no income protection system** for such situations.
+👉 Currently, there is **no reliable income protection system** for such situations.
 
 ---
 
@@ -54,13 +54,13 @@ During heavy rainfall:
 
 ## 🔄 Application Workflow
 
-1. User signs up and connects platform
+1. User signs up
 2. Activates weekly policy
 3. Receives pre-shift risk alerts
 4. System monitors activity + environment
 5. Detects disruption
 6. Verifies income loss (Income Oracle)
-7. Sends instant payout via UPI
+7. Sends instant payout
 
 ---
 
@@ -104,134 +104,104 @@ Loss = ₹500 → Payout = ₹150–₹200
 
 ## 🤖 AI/ML Integration
 
-### Risk Prediction
-
-* Weather + historical + demand patterns
-
-### Dynamic Pricing
-
-* Weekly premium adjusts based on risk
-
-### Fraud Detection
-
-* GPS validation
-* Activity tracking
-* Duplicate claim detection
-
-### Income Oracle (Core)
-
-* Verifies real income loss
+* Risk Prediction (weather + demand patterns)
+* Dynamic Pricing
+* Fraud Detection
+* Income Oracle (core engine)
 
 ---
 
-## 🛡️ Adversarial Defense & Anti-Spoofing Strategy
+## 🛡️ Fraud Detection System
 
-Due to rising threats like GPS spoofing and coordinated fraud attacks, SurakshaSetu integrates a **multi-layered fraud defense system**.
+SurakshaSetu includes a **multi-layered fraud defense system**:
 
----
+* GPS + movement validation
+* Device & behavior tracking
+* Order pattern analysis
+* Network anomaly detection
+* AI-based anomaly detection
 
-### 🔍 1. Differentiation: Real vs Fake Claims
-
-Instead of relying only on GPS, we use:
-
-* 📍 Location consistency vs historical patterns
-* 🚴 Movement behavior during shifts
-* 📦 Order activity vs expected demand
-* 🌧️ Environmental validation
-
-👉 Real users show **consistent activity**, while fraud users show **static or abnormal patterns**
+👉 Ensures fairness and prevents fake claims
 
 ---
 
-### 📊 2. Data Beyond GPS
+## 🏗️ Project Structure
 
-We analyze:
+```
+SurakshaSetu/
+├── backend/              # Node.js + Express API
+├── ml-service/           # Python ML microservice
+├── suraksha-frontend/    # Main frontend (FINAL UI)
+├── old-frontend/         # Deprecated (not used)
+```
 
-* Device ID & session behavior
-* App usage patterns
-* Order acceptance & completion rates
-* Route & speed consistency
-* Network anomalies (sudden jumps)
-* Cluster detection (multiple similar claims)
-
-👉 Helps detect **organized fraud rings**
-
----
-
-### ⚖️ 3. UX Balance (Fairness)
-
-* Soft flagging instead of instant rejection
-* Delayed validation for accuracy
-* Alternative verification if GPS fails
-* User notification for flagged claims
-
-👉 Ensures **fair treatment for genuine workers**
+> ⚠️ Use `suraksha-frontend` for running the project
 
 ---
 
-### 🧠 AI Fraud Layer
+## 🚀 How to Run Locally
 
-* Anomaly detection
-* Pattern recognition
-* Risk scoring per claim
+### Backend
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+### ML Service
+
+```bash
+cd ml-service
+pip install -r requirements.txt
+python app.py
+```
+
+### Frontend
+
+```bash
+cd suraksha-frontend
+npm install
+npm run dev
+```
 
 ---
 
-### 🚀 Outcome
+## 🎥 Demo Video
 
-* Prevents mass fake payouts
-* Maintains trust and fairness
-* Builds a secure insurance system
+📽️ Screen-capture walkthrough showing:
+
+* Login & dashboard
+* AI-based claim trigger
+* Automated payout
+
+👉 **Watch here:** *(Add your public video link)*
 
 ---
 
-## 📱 Platform Choice
+## 📊 Pitch Deck
 
-Mobile App:
+📄 Project presentation (PPT/PDF):
 
-* Easy access
-* Real-time alerts
-* GPS tracking
-* Instant payouts
+👉 View Pitch Deck:  *https://drive.google.com/file/d/1VrITkVXX37-4_9Xj0ZP_xJKdg15xC41N/view?usp=sharing*
 
 ---
 
 ## 🛠️ Tech Stack
 
-Frontend: React Native
-Backend: Node.js + Express
-Database: MongoDB
-AI/ML: Python (Scikit-learn)
-
-APIs:
-
-* Weather APIs
-* Mock delivery APIs
-* UPI integration
-
----
-
-## 📅 Development Plan
-
-Phase 1: Ideation + Documentation ✅
-Phase 2: Core features + automation
-Phase 3: AI + fraud detection + scaling
+* Frontend: React + Tailwind
+* Backend: Node.js + Express
+* Database: MongoDB
+* AI/ML: Python (Scikit-learn)
 
 ---
 
 ## 🌟 USP
 
 * Income-focused insurance
-* Shift-level protection
-* Instant payouts
-* AI-driven system
-* Strong anti-fraud architecture
-
----
-
-## 📄 Insurance Policy
-
-Full policy available in: `policy.md`
+* Instant automated payouts
+* AI-driven decision making
+* Strong anti-fraud system
 
 ---
 
@@ -239,9 +209,6 @@ Full policy available in: `policy.md`
 
 Build a system where:
 
-**No delivery worker loses income due to external disruptions**
+> **No delivery worker loses income due to external disruptions**
 
 ---
-
-
-
