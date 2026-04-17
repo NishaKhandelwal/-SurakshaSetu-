@@ -175,8 +175,7 @@ npm run dev
 * AI-based claim trigger
 * Automated payout
 
-👉 **Watch here:** *(Add your public video link)*
-
+👉 **Watch here:** *https://drive.google.com/file/d/11dSYNmncX_Wgyjsn4w9ig06Sv30eoEyb/view?usp=drivesdk*
 ---
 
 ## 📊 Pitch Deck
